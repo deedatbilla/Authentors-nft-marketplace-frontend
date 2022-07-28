@@ -83,7 +83,7 @@ const StyledSkeleton = styled(Skeleton)`
     }
 `;
 
-const StyledImg = styled.img<{ theme?: Theme; willDrop: boolean }>`
+const StyledImg = styled.img<{ theme?: Theme; }>`
     position: absolute;
     border-radius: 1rem;
     width: 100%;
@@ -91,7 +91,6 @@ const StyledImg = styled.img<{ theme?: Theme; willDrop: boolean }>`
     object-position: center center;
     object-fit: cover;
     height: 100%;
-    opacity: ${(props) => (props.willDrop ? '0.4' : '1')} !important;
 `;
 
 const AvailabilityWrapper = styled.div<{
@@ -145,30 +144,11 @@ export const NftCard: React.FC<NftCardProps> = ({ loading, ...props }) => {
     const history = useHistory();
     const [componentLoading, setComponentLoading] = useState(true);
 
-    const [launchTime, setLaunchTime] = useState<number>(
-        new Date(props.launchAt!).getTime() - new Date().getTime(),
-    );
-
-    useEffect(() => {
-        if (props.launchAt) {
-            setLaunchTime(
-                new Date(props.launchAt).getTime() - new Date().getTime(),
-            );
-        }
-    }, [props.launchAt]);
-
-    useEffect(() => {
-        if (props.launchAt) {
-            const launchTimeout = setTimeout(() => {
-                setLaunchTime(
-                    new Date(props.launchAt!).getTime() - new Date().getTime(),
-                );
-            }, 1000);
-
-            return () => clearTimeout(launchTimeout);
-        }
-    }, [launchTime]);
-
+    const getIPFSHash = (url:string) => {
+       const res =  url.split("//")
+        console.log(res)
+        return res[1]
+    }
     const loadImage = async (imageUrl: string) => {
         let img;
         setComponentLoading(true);
@@ -176,7 +156,8 @@ export const NftCard: React.FC<NftCardProps> = ({ loading, ...props }) => {
         const imageLoadPromise = new Promise((resolve) => {
             img = new Image();
             img.onload = resolve;
-            img.src = imageUrl;
+            img.src = imageUrl
+            // img.src = "https://ipfs.io/ipfs/QmbsFDLwTjSDypbQCjGJaZT4XbDQE62bRmrzJjn7Xvpw5E";
         });
 
         await imageLoadPromise;
@@ -207,14 +188,13 @@ export const NftCard: React.FC<NftCardProps> = ({ loading, ...props }) => {
             }}
         >
             <StyledImgWrapper>
-                <StyledImg
+                <StyledImg   //https://ipfs.io/ipfs/QmbsFDLwTjSDypbQCjGJaZT4XbDQE62bRmrzJjn7Xvpw5E
                     data-object-fit="cover"
-                    src={props.displayUri}
+                    src={`https://ipfs.io/ipfs/${getIPFSHash(String(props.displayUri))}`}
                     alt={props.name}
-                    willDrop={!launchTime ? false : launchTime > 0}
                     onLoad={() =>
                         props.displayUri
-                            ? loadImage(props.displayUri)
+                            ? loadImage(`https://ipfs.io/ipfs/${getIPFSHash(String(props.displayUri))}`)
                             : undefined
                     }
                     style={{
@@ -242,32 +222,10 @@ export const NftCard: React.FC<NftCardProps> = ({ loading, ...props }) => {
                     weight="SemiBold"
                     display="initial !important"
                     noWrap
-                    size="h3"
+                    size="h5"
                 >
                     {props.name}
                 </Typography>
-                <Box
-                    display="flex"
-                    flexDirection="row"
-                    alignSelf="self-start"
-                    width="100%"
-                >
-                    <Typography weight="Light" size="body">
-                        {launchTime &&
-                            launchTime > 0 &&
-                            `${new Date(launchTime).getDate() - 1} day${
-                                new Date(launchTime).getDate() > 2 ? 's' : ''
-                            } - ${format(
-                                new Date(
-                                    launchTime +
-                                        new Date().getTimezoneOffset() *
-                                            60 *
-                                            1000,
-                                ),
-                                'HH : mm : ss',
-                            )}`}
-                    </Typography>
-                </Box>
             </StyledCardContent>
         </StyledCard>
     ) : (

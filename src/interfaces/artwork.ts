@@ -6,6 +6,7 @@ export interface IArtwork {
 }
 
 export interface INft {
+    metadata: any;
     id: number;
     name: string;
     artistName?: string;
@@ -21,3 +22,4 @@ export interface INft {
     categories: ICategory[];
     ownerStatuses?: ('pending' | 'owned')[]
 }
+

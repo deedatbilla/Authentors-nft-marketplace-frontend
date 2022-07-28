@@ -21,6 +21,7 @@ import {
 import { CustomSelect } from '../../design-system/atoms/Select';
 import { Typography } from '../../design-system/atoms/Typography';
 import { useHistory } from 'react-router';
+import { string } from 'yup';
 
 interface ParamTypes {
     width?: any;
@@ -143,11 +144,13 @@ const StorePage = () => {
     const [filterSliding, setFilterSliding] = useState<boolean>(false);
     const [comfortLoader, setComfortLoader] = useState<boolean>(false);
     const [onInit, setOnInit] = useState(true);
+    const [collection, setCollection] = useState<string>("");
+    const [walletAdress, setWalletAddres] = useState<string>("");
 
     // Api calls for the categories and the nfts
     const [nftsResponse, getNfts] = useAxios(
-        process.env.REACT_APP_API_SERVER_BASE_URL + '/nfts',
-        { manual: true },
+        process.env.REACT_APP_TZKIT_API_URL + `balances`,
+        { manual: false },
     );
     const [categoriesResponse, getCategories] = useAxios(
         process.env.REACT_APP_API_SERVER_BASE_URL + '/categories',
@@ -166,47 +169,17 @@ const StorePage = () => {
         }
     }, [history.location.state])
 
-    const callNFTsEndpoint = (params: IParamsNFTs) => {
+   
+
+    const callNFTsEndpoint = (address: string,limit: number) => {
         setComfortLoader(true);
         const comfortTrigger = setTimeout(() => {
             getNfts({
-                withCredentials: true,
                 params: {
-                    page: params.page ?? 1,
-                    pageSize: 12,
-                    categories:
-                        params.categories ??
-                        selectedCategories.join(',') ??
-                        undefined,
-                    orderBy:
-                        params.orderBy ?? selectedSort?.orderBy ?? 'createdAt',
-                    orderDirection:
-                        params.orderDirection ??
-                        selectedSort?.orderDirection ??
-                        'desc',
-                    priceAtLeast:
-                        params.priceAtLeast ??
-                        (params.handlePriceRange && priceFilterRange
-                            ? priceFilterRange[0]
-                            : undefined),
-                    priceAtMost:
-                        params.priceAtMost ??
-                        (params.handlePriceRange && priceFilterRange
-                            ? priceFilterRange[1]
-                            : undefined),
-                    availability:
-                        params.availability ??
-                        (selectedAvailability.length === 0
-                            ? 'onSale,soldOut,upcoming'
-                            : selectedAvailability.join(',')),
+                    "account.eq": address ?? 1,
+                    "limit": limit ?? 15
                 },
             }).then((response) => {
-                if (!params.handlePriceRange) {
-                    setPriceFilterRange([
-                        response.data.lowerPriceBound,
-                        response.data.upperPriceBound,
-                    ]);
-                }
             });
             setComfortLoader(false);
         }, 400);
@@ -232,6 +205,11 @@ const StorePage = () => {
             | 'desc';
         const availability = pageParam.get('availability');
 
+        const collection = pageParam.get('collection');
+        console.log(collection)
+        const walletAdress = pageParam.get('address')
+        setCollection(String(collection))
+        setWalletAddres(String(walletAdress))
         // Pagination
         if (page) {
             setSelectedPage(Number(page));
@@ -252,30 +230,8 @@ const StorePage = () => {
             });
         }
 
-        // Availability
-        if (availability) {
-            setSelectedAvailability(availability.split(','));
-        }
-
-        // Categories
-        if (categories) {
-            setPreSelectedCategories(
-                categories.split(',').map((categoryId) => Number(categoryId)),
-            );
-        }
-
-        callNFTsEndpoint({
-            handlePriceRange: priceAtLeast !== null && priceAtMost !== null,
-            page: page ? Number(page) : 1,
-            categories: categories
-                ?.split(',')
-                .map((categoryId) => Number(categoryId)),
-            orderBy: orderBy,
-            orderDirection: orderDirection,
-            priceAtLeast: priceAtLeast ? Number(priceAtLeast) : undefined,
-            priceAtMost: priceAtMost ? Number(priceAtMost) : undefined,
-            availability: availability?.split(','),
-        });
+ 
+        callNFTsEndpoint(String(walletAdress), 15)
     };
 
     const setPageParams = (
@@ -322,7 +278,7 @@ const StorePage = () => {
     const handlePaginationChange = (event: any, page: number) => {
         setSelectedPage(page);
         setPageParams('page', page.toString());
-        callNFTsEndpoint({ handlePriceRange: true, page: page });
+        // callNFTsEndpoint({ handlePriceRange: true, page: page });
         window.scrollTo(0, 0);
     };
 
@@ -331,7 +287,7 @@ const StorePage = () => {
             setPageParams('priceAtLeast', priceFilterRange[0].toString());
             setPageParams('priceAtMost', priceFilterRange[1].toString());
         }
-        callNFTsEndpoint({ handlePriceRange: true });
+        // callNFTsEndpoint({ handlePriceRange: true });
     };
 
     useEffect(() => {
@@ -388,7 +344,7 @@ const StorePage = () => {
                         weight="SemiBold"
                         sx={{ justifyContent: 'center' }}
                     >
-                        The Store
+                         { collection }
                     </Typography>
                 )}
 
@@ -438,11 +394,11 @@ const StorePage = () => {
                                     Number(nftsResponse.data?.lowerPriceBound),
                                     Number(nftsResponse.data?.upperPriceBound),
                                 ]);
-                                callNFTsEndpoint({
-                                    handlePriceRange: false,
-                                    categories: [],
-                                    availability: [],
-                                });
+                                // callNFTsEndpoint({
+                                //     handlePriceRange: false,
+                                //     categories: [],
+                                //     availability: [],
+                                // });
                             }}
                             sx={{ display: `${isMobile ? 'none' : 'flex'}` }}
                         />
@@ -500,11 +456,11 @@ const StorePage = () => {
                                 orderBy: JSON.parse(event.target.value).orderBy,
                                 orderDirection: JSON.parse(event.target.value).orderDirection,
                             };
-                            callNFTsEndpoint({
-                                handlePriceRange: true,
-                                orderBy: sort.orderBy,
-                                orderDirection: sort.orderDirection,
-                            });
+                            // callNFTsEndpoint({
+                            //     handlePriceRange: true,
+                            //     orderBy: sort.orderBy,
+                            //     orderDirection: sort.orderDirection,
+                            // });
                             setSelectedSort(JSON.parse(event.target.value));
                         }}
                         disabled={nftsResponse.loading}
@@ -536,7 +492,7 @@ const StorePage = () => {
 
                     <NftGrid
                         open={filterOpen}
-                        nfts={nftsResponse.data?.nfts}
+                        nfts={nftsResponse?.data}
                         loading={
                             nftsResponse.loading ||
                             filterSliding ||
@@ -569,3 +525,4 @@ const StorePage = () => {
 };
 
 export default StorePage;
+

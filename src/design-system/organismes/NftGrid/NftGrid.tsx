@@ -6,6 +6,7 @@ import { Grid, Stack } from '@mui/material';
 
 import { NftCard } from '../../molecules/NftCard';
 import { INft } from '../../../interfaces/artwork';
+import { CertificateNFTS } from '../../../interfaces/certificates'
 
 export interface NftGridProps {
     editable?: boolean;
@@ -14,7 +15,7 @@ export interface NftGridProps {
     emptyLink?: string;
     loading?: boolean;
     open?: boolean;
-    nfts?: INft[];
+    nfts?: CertificateNFTS[];
     openFilters?: boolean;
     collapsed?: boolean;
     sx?: any;
@@ -34,7 +35,7 @@ const StyledDiv = styled.div`
 `;
 
 export const NftGrid: FC<NftGridProps> = ({ ...props }) => {
-    const [gridNfts, setGridNfts] = useState<INft[]>();
+    const [gridNfts, setGridNfts] = useState<CertificateNFTS[]>();
     const [comfortLoading, setComfortLoading] = useState<boolean>(false);
 
     useEffect(() => {
@@ -64,29 +65,21 @@ export const NftGrid: FC<NftGridProps> = ({ ...props }) => {
                     {gridNfts.map((nft, index) => (
                         <Grid
                             item
-                            lg={3}
-                            md={3}
+                            lg={4}
+                            md={4}
                             sm={6}
                             xs={12}
                             key={`users-${index}`}
                         >
                             <NftCard
-                                id={nft.id.toString()}
-                                name={nft.name}
-                                ipfsHash={nft.ipfsHash}
-                                displayUri={nft.displayUri}
-                                price={nft.price}
-                                loading={props.loading}
+                                id={nft?.id.toString()}
+                                name={nft.token.metadata?.name}
+                                ipfsHash={nft.token.metadata?.artifactUri}
+                                displayUri={nft.token.metadata?.displayUri}
+                                price={Number(nft?.balance)}
                                 editionsAvailable={Number(
-                                    nft.editionsAvailable,
+                                    nft?.firstTime,
                                 )}
-                                nftCardMode={props.nftCardMode}
-                                launchAt={nft.launchAt * 1000}
-                                ownerStatus={
-                                    nft.ownerStatuses
-                                        ? nft.ownerStatuses[0]
-                                        : undefined
-                                }
                             />
                         </Grid>
                     ))}
