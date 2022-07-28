@@ -64,8 +64,8 @@ export const NftGrid: FC<NftGridProps> = ({ ...props }) => {
                     {gridNfts.map((nft, index) => (
                         <Grid
                             item
-                            lg={props.open ? 4 : 3}
-                            md={props.open ? 6 : 4}
+                            lg={3}
+                            md={3}
                             sm={6}
                             xs={12}
                             key={`users-${index}`}
@@ -100,8 +100,8 @@ export const NftGrid: FC<NftGridProps> = ({ ...props }) => {
                     {[...new Array(8)].map((nft, index) => (
                         <Grid
                             item
-                            lg={props.open ? 4 : 3}
-                            md={props.open ? 6 : 4}
+                            lg={3}
+                            md={4}
                             sm={6}
                             xs={12}
                             key={`nft-loader-${index}`}

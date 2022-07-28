@@ -399,11 +399,11 @@ const StorePage = () => {
                     direction="row"
                     sx={{ justifyContent: 'center', alignItems: 'center' }}
                 >
-                    <StyledChevronLeftIcon
+                    {/* <StyledChevronLeftIcon
                         opened={isMobile ? false : filterOpen}
                         onClick={() => setFilterOpen(!filterOpen)}
-                    />
-                    <Typography
+                    /> */}
+                    {/* <Typography
                         size="h4"
                         weight="SemiBold"
                         onClick={() => setFilterOpen(!filterOpen)}
@@ -413,12 +413,12 @@ const StorePage = () => {
                             paddingLeft: '0.5rem',
                         }}
                     >
-                        {`Filters ${
+                        {`hgahgshg ${
                             selectedCategories.length > 0
                                 ? `  - ${selectedCategories.length}`
                                 : ''
                         }`}
-                    </Typography>
+                    </Typography> */}
                     {(selectedAvailability.length > 0 ||
                         selectedCategories.length > 0 ||
                         (JSON.stringify(priceFilterRange) !==
@@ -513,7 +513,7 @@ const StorePage = () => {
                 </Stack>
 
                 <StyledContentStack>
-                    <StoreFilters
+                    {/* <StoreFilters
                         availableFilters={availableFilters}
                         openFilters={isMobile ? !filterOpen : filterOpen}
                         callNFTsEndpoint={callNFTsEndpoint}
@@ -532,7 +532,7 @@ const StorePage = () => {
                         setFilterSliding={setFilterSliding}
                         availabilityFilter={selectedAvailability}
                         setAvailabilityFilter={setSelectedAvailability}
-                    />
+                    /> */}
 
                     <NftGrid
                         open={filterOpen}

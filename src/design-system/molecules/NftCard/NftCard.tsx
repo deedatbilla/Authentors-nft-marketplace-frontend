@@ -237,30 +237,6 @@ export const NftCard: React.FC<NftCardProps> = ({ loading, ...props }) => {
                     flexGrow: 1,
                 }}
             >
-                {(props.nftCardMode !== 'user' ||
-                    props.ownerStatus === 'pending') && (
-                    <AvailabilityWrapper
-                        inStock={(props.editionsAvailable ?? 0) > 0}
-                        willDrop={!launchTime ? false : launchTime > 0}
-                        pending={props.ownerStatus === 'pending'}
-                    >
-                        <Typography
-                            weight="SemiBold"
-                            size="body2"
-                            color="white"
-                        >
-                            {props.ownerStatus === 'pending'
-                                ? 'Pending'
-                                : (props.editionsAvailable ?? 0) > 0
-                                ? !launchTime
-                                    ? false
-                                    : launchTime > 0
-                                    ? 'Drop'
-                                    : 'In stock'
-                                : 'Sold out'}
-                        </Typography>
-                    </AvailabilityWrapper>
-                )}
 
                 <Typography
                     weight="SemiBold"
@@ -270,27 +246,6 @@ export const NftCard: React.FC<NftCardProps> = ({ loading, ...props }) => {
                 >
                     {props.name}
                 </Typography>
-
-                {props.nftCardMode === 'user' &&
-                props.ownerStatus === 'pending' ? (
-                    <Stack
-                        direction="column"
-                        sx={{
-                            flexFlow: 'wrap',
-                        }}
-                    >
-                        <FlexSpacer />
-                        <CustomCircularProgress height={1.2} />
-                    </Stack>
-                ) : (
-                    props.nftCardMode !== 'user' && (
-                        <Typography weight="Medium" size="h4">
-                            {' '}
-                            {props.price ? props.price : '- '} €
-                        </Typography>
-                    )
-                )}
-
                 <Box
                     display="flex"
                     flexDirection="row"
