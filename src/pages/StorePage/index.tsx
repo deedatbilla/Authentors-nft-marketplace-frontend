@@ -152,7 +152,6 @@ const StorePage = () => {
         process.env.REACT_APP_TZKIT_API_URL + `balances`,
         { manual: false },
     );
-    console.log(nftsResponse)
     const [categoriesResponse, getCategories] = useAxios(
         process.env.REACT_APP_API_SERVER_BASE_URL + '/categories',
         { manual: true },

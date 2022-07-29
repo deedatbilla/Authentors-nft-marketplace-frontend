@@ -242,8 +242,7 @@ export const ProductPage: FC<ProductPageProps> = ({ ...props }) => {
         setNft(nftResponse?.data?.[0])
      }
     }, [nftResponse])
-    console.log(nft, 'here2');
-    console.log(nft?.metadata.displayUri)
+
     useEffect(() => {
         if (nftResponse.data) {
             setLaunchTime(
