@@ -264,19 +264,7 @@ export const MobileMenu: FC<MenuProps> = ({ ...props }) => {
 
                 {/* QuickSearch wrapper to close menu in case open */}
 
-                <Stack
-                    onClick={() =>
-                        !props.isSearchOpen
-                            ? props.setSearchOpen(!props.isSearchOpen)
-                            : {}
-                    }
-                >
-                    <QuickSearch
-                        searchOpen={props.isSearchOpen}
-                        setSearchOpen={props.setSearchOpen}
-                    />
-                </Stack>
-
+               
                 {/* Menu button, and closing button for search bar */}
 
                 <Slide
@@ -286,14 +274,14 @@ export const MobileMenu: FC<MenuProps> = ({ ...props }) => {
                     style={{ marginLeft: '0.8rem' }}
                 >
                     <StyledWrapper spacing={2} direction="row">
-                        <Badge
+                        {/* <Badge
                             color="error"
                             badgeContent={props.nftsInCartNumber}
                         >
                             <StyledShoppingCartRoundedIcon
                                 onClick={() => props.openOrCloseShoppingCart()}
                             />
-                        </Badge>
+                        </Badge> */}
 
                         <WrapperThemeIcon isSearchOpen={props.isSearchOpen}>
                             {props.selectedTheme === 'dark' ? (
@@ -308,7 +296,7 @@ export const MobileMenu: FC<MenuProps> = ({ ...props }) => {
                                 />
                             )}
                         </WrapperThemeIcon>
-                        <WrapperMenuIcon
+                        {/* <WrapperMenuIcon
                             onClick={
                                 props.isSearchOpen
                                     ? () => props.setSearchOpen(false)
@@ -319,7 +307,7 @@ export const MobileMenu: FC<MenuProps> = ({ ...props }) => {
                                 <MenuBarUp expandMenu={expandMenu} />
                                 <MenuBarDown expandMenu={expandMenu} />
                             </MenuBarWrapper>
-                        </WrapperMenuIcon>
+                        </WrapperMenuIcon> */}
                     </StyledWrapper>
                 </Slide>
             </MobileStyledMenuHeader>

@@ -52,13 +52,13 @@ const LinkStyled = styled(Link)`
 `;
 
 const LogoStyled = styled.img<{ theme?: Theme }>`
-    filter: ${(props) => props.theme.logo.filter ?? 'invert(0%)'};
+    // filter: ${(props) => props.theme.logo.filter ?? 'invert(0%)'};
     display: block;
-    height: 1rem;
+    height: 2.8rem;
     transition: height 0.2s;
 
     @media (max-width: 600px) {
-        height: 0.9rem;
+        height: 2.9rem;
         transition: height 0.2s;
     }
 `;
@@ -111,7 +111,7 @@ export const Footer: FC<FooterProps> = () => {
                 }}
             >
                 <LinkStyled to="/">
-                    <LogoStyled alt="Logo" src={'/img/Logo.svg'} />
+                    <LogoStyled alt="Logo" src={'/img/Logo.webp'} />
                 </LinkStyled>
 
                 <Typography

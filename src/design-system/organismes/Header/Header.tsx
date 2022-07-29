@@ -168,14 +168,14 @@ export const Header: FC<HeaderProps> = ({
                 nftsInCartNumber={props.nftsInCartNumber}
             />
 
-            <SignInModal
+            {/* <SignInModal
                 beaconWallet={beaconWallet}
                 embedKukai={embedKukai}
                 setCurrentLoggedUser={setCurrentLoggedUser}
                 handleCloseModal={handleCloseModal}
                 open={props.loginOpen}
                 listCart={listCart}
-            />
+            /> */}
         </StyledBox>
     );
 };

@@ -37,7 +37,7 @@ const StyledDiv = styled.div`
 export const NftGrid: FC<NftGridProps> = ({ ...props }) => {
     const [gridNfts, setGridNfts] = useState<CertificateNFTS[]>();
     const [comfortLoading, setComfortLoading] = useState<boolean>(false);
-
+// console.log(gridNfts,"here")
     useEffect(() => {
         if (props.nfts) {
             setGridNfts(props.nfts);
@@ -72,7 +72,7 @@ export const NftGrid: FC<NftGridProps> = ({ ...props }) => {
                             key={`users-${index}`}
                         >
                             <NftCard
-                                id={nft?.id.toString()}
+                                id={nft?.token.id.toString()}
                                 name={nft.token.metadata?.name}
                                 ipfsHash={nft.token.metadata?.artifactUri}
                                 displayUri={nft.token.metadata?.displayUri}

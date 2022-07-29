@@ -9,13 +9,13 @@ interface StickyLogoProps {
 }
 
 const ImgStyled = styled.img<{ theme?: Theme }>`
-    filter: ${(props) => props.theme.logo.filter ?? 'invert(0%)'};
-    height: 0.8rem;
+    // filter: ${(props) => props.theme.logo.filter ?? 'invert(0%)'};
+    height: 2.8rem;
     z-index: 90;
     transition: height 0.2s;
 
     @media (max-width: 600px) {
-        height: 0.6rem;
+        height: 2.6rem;
         transition: height 0.2s;
     }
 `;
@@ -35,7 +35,7 @@ const LinkStyled = styled(Link)<StickyLogoProps>`
 export const StickyLogo: FC<StickyLogoProps> = ({ ...props }) => {
     return (
         <LinkStyled to="/" isdisplay={props.isdisplay}>
-            <ImgStyled alt="Sticky Logo" src={'/img/Logo.svg'} />
+            <ImgStyled alt="Sticky Logo" src={'/img/Logo.webp'} />
         </LinkStyled>
     );
 };

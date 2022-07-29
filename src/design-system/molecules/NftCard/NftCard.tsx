@@ -143,7 +143,7 @@ const StyledCardContent = styled(CardContent)<{ theme?: Theme }>`
 export const NftCard: React.FC<NftCardProps> = ({ loading, ...props }) => {
     const history = useHistory();
     const [componentLoading, setComponentLoading] = useState(true);
-
+// console.log(props)
     const getIPFSHash = (url:string) => {
        const res =  url.split("//")
         console.log(res)

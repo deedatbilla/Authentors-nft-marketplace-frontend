@@ -48,73 +48,12 @@ export const DesktopMenu: FC<MenuProps> = ({ user, onLogout, ...props }) => {
             >
                 {/* Link to general pages */}
 
-                {location.pathname === '/sign-in' ||
-                location.pathname === '/account/create' ? undefined : (
-                    <>
-                        <StyledLink
-                            to="/home"
-                            isSearchOpen={props.isSearchOpen}
-                        >
-                            <Typography
-                                size="inherit"
-                                weight="Light"
-                                color="#9b9b9b"
-                                sx={{ cursor: 'pointer' }}
-                            >
-                                {t('menu.home')}
-                            </Typography>
-                        </StyledLink>
-
-                        <StyledLink
-                            to="/store?orderBy=createdAt&orderDirection=desc"
-                            isSearchOpen={props.isSearchOpen}
-                        >
-                            <Typography
-                                size="inherit"
-                                weight="Light"
-                                color="#9b9b9b"
-                                sx={{ cursor: 'pointer' }}
-                            >
-                                {t('menu.store')}
-                            </Typography>
-                        </StyledLink>
-
-                        {/* Quick Search controlling the opacity and position of the links above */}
-
-                        <QuickSearch
-                            searchOpen={props.isSearchOpen ?? false}
-                            setSearchOpen={props.setSearchOpen}
-                        />
-                    </>
-                )}
+               
 
                 {/* Call to action button: `Sign in`, `Add artwork` for curators and artists, and profile avatar to display the submenu */}
 
-                {localStorage.getItem('Kanvas - address') ===
-                user?.userAddress ? (
-                    <Avatar
-                        src={`${user?.profilePicture}?${Date.now()}`}
-                        onClick={(e) =>
-                            anchorEl === null ? handleClick(e) : handleClose()
-                        }
-                        sx={{ cursor: 'pointer !important' }}
-                    />
-                ) : location.pathname === '/sign-in' ||
-                  location.pathname === '/account/create' ||
-                  location.pathname === '/account/edit' ? undefined : (
-                    <CustomButton
-                        size="medium"
-                        onClick={() => props.setOpen(true)}
-                        label="Sign in"
-                        loading={props.loading}
-                    />
-                )}
-
-                <Badge color="error" badgeContent={props.nftsInCartNumber}>
-                    <StyledShoppingCartRoundedIcon
-                        onClick={() => props.openOrCloseShoppingCart()}
-                    />
-                </Badge>
+               
+              
                 {props.selectedTheme === 'dark' ? (
                     <Brightness3Icon
                         onClick={() => props.switchTheme('light')}
