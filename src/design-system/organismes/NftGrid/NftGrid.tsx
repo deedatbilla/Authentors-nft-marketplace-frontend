@@ -65,7 +65,7 @@ export const NftGrid: FC<NftGridProps> = ({ ...props }) => {
                     {gridNfts.map((nft, index) => (
                         <Grid
                             item
-                            lg={4}
+                            lg={3}
                             md={4}
                             sm={6}
                             xs={12}

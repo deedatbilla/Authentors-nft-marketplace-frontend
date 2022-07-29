@@ -221,7 +221,7 @@ export const NftCard: React.FC<NftCardProps> = ({ loading, ...props }) => {
                 <Typography
                     weight="SemiBold"
                     display="initial !important"
-                    noWrap
+                   
                     size="h5"
                 >
                     {props.name}

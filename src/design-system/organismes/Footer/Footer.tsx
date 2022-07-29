@@ -91,9 +91,7 @@ const StyledLink = styled(Link)<{ theme?: Theme }>`
 export const Footer: FC<FooterProps> = () => {
     const { t } = useTranslation(['translation']);
 
-    const [selectedLanguage, setSelectedLanguage] = useState<string>(
-        i18next.language,
-    );
+    const [selectedLanguage, setSelectedLanguage] = useState<string>('en');
 
     const [selectedCurrency, setSelectedCurrency] = useState<string>();
 
@@ -132,19 +130,10 @@ export const Footer: FC<FooterProps> = () => {
                 </Box>
             </Grid>
 
-            <Grid
-                item
-                md={7}
-                lg={6}            
-            >
+            <Grid item md={7} lg={6}>
                 <Grid container columnSpacing={{ xs: 0, sm: 2, md: 3 }}>
                     <Grid item xs={6} md={3}>
-                        <Typography
-                            size="h5"
-                            weight="SemiBold"
-                            gutterBottom
-                        
-                        >
+                        <Typography size="h5" weight="SemiBold" gutterBottom>
                             {t('footer.headline_1.title')}
                         </Typography>
 
@@ -166,12 +155,7 @@ export const Footer: FC<FooterProps> = () => {
                     </Grid>
 
                     <Grid item xs={6} md={3}>
-                        <Typography
-                            size="h5"
-                            weight="SemiBold"
-                            gutterBottom
-                        
-                        >
+                        <Typography size="h5" weight="SemiBold" gutterBottom>
                             {t('footer.headline_2.title')}
                         </Typography>
 
@@ -192,12 +176,7 @@ export const Footer: FC<FooterProps> = () => {
                         </Box>
                     </Grid>
 
-                    <Grid
-                        item
-                        xs={6}
-                        md={3}
-                        sx={{ height: '7rem' }}
-                    >
+                    <Grid item xs={6} md={3} sx={{ height: '7rem' }}>
                         <Typography weight="SemiBold" size="h5" gutterBottom>
                             {t('footer.headline_3.title')}
                         </Typography>
