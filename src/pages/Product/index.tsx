@@ -401,6 +401,66 @@ export const ProductPage: FC<ProductPageProps> = ({ ...props }) => {
                                 'No description provided'
                             )}
                         </Typography>
+
+                        <Typography
+                            size="body"
+                            weight="SemiBold"
+                            sx={{ pt: 3 }}
+                            color="#757575"
+                        >
+                            {nftResponse.loading || comfortLoader ? (
+                                <Skeleton width="10rem" height="2rem" />
+                            ) : (
+                                "Contract address"
+                            )}
+                        </Typography>
+                        <Typography
+                            size="h5"
+                            weight="Light"
+                            sx={{ pt: 0, mb: 1 }}
+                        >
+                            {nftResponse.loading || comfortLoader ? (
+                                <Stack direction="column">
+                                    <Skeleton width="40rem" height="1rem" />
+                                    <Skeleton width="40rem" height="1rem" />
+                                    <Skeleton width="40rem" height="1rem" />
+                                    <Skeleton width="10rem" height="1rem" />
+                                </Stack>
+                            ) : (
+                                nft?.contract.address ??
+                                ''
+                            )}
+                        </Typography>
+
+                        <Typography
+                            size="body"
+                            weight="SemiBold"
+                            sx={{ pt: 3 }}
+                            color="#757575"
+                        >
+                            {nftResponse.loading || comfortLoader ? (
+                                <Skeleton width="10rem" height="2rem" />
+                            ) : (
+                                "Minted"
+                            )}
+                        </Typography>
+                        <Typography
+                            size="h5"
+                            weight="Light"
+                            sx={{ pt: 0, mb: 1 }}
+                        >
+                            {nftResponse.loading || comfortLoader ? (
+                                <Stack direction="column">
+                                    <Skeleton width="40rem" height="1rem" />
+                                    <Skeleton width="40rem" height="1rem" />
+                                    <Skeleton width="40rem" height="1rem" />
+                                    <Skeleton width="10rem" height="1rem" />
+                                </Stack>
+                            ) : (
+                            new Date(nft?.firstTime).toString() ??
+                                ''
+                            )}
+                        </Typography>
                         {/* {launchTime && launchTime > 0 && (
                             <>
                                 <Typography

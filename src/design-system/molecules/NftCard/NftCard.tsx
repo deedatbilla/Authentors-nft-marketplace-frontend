@@ -146,7 +146,6 @@ export const NftCard: React.FC<NftCardProps> = ({ loading, ...props }) => {
 // console.log(props)
     const getIPFSHash = (url:string) => {
        const res =  url.split("//")
-        console.log(res)
         return res[1]
     }
     const loadImage = async (imageUrl: string) => {
@@ -217,7 +216,14 @@ export const NftCard: React.FC<NftCardProps> = ({ loading, ...props }) => {
                     flexGrow: 1,
                 }}
             >
-
+ <Typography
+                    weight="SemiBold"
+                    display="initial !important"
+                   
+                    size="h5"
+                >
+                    {props.id}
+                </Typography>
                 <Typography
                     weight="SemiBold"
                     display="initial !important"

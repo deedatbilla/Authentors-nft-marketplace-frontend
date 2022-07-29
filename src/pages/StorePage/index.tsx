@@ -144,8 +144,8 @@ const StorePage = () => {
     const [filterSliding, setFilterSliding] = useState<boolean>(false);
     const [comfortLoader, setComfortLoader] = useState<boolean>(false);
     const [onInit, setOnInit] = useState(true);
-    const [collection, setCollection] = useState<string>("");
-    const [walletAdress, setWalletAddres] = useState<string>("");
+    const [collection, setCollection] = useState<string>('');
+    const [walletAdress, setWalletAddres] = useState<string>('');
 
     // Api calls for the categories and the nfts
     const [nftsResponse, getNfts] = useAxios(
@@ -160,27 +160,26 @@ const StorePage = () => {
     useEffect(() => {
         getCategories();
         getPageParams();
-    }, []);
+    }, [selectedPage]);
 
     useEffect(() => {
         if (history.location.state) {
-            const state : any = history.location.state
-            if (state.refresh && state.category) setPreSelectedCategories([state.category]);
+            const state: any = history.location.state;
+            if (state.refresh && state.category)
+                setPreSelectedCategories([state.category]);
         }
-    }, [history.location.state])
+    }, [history.location.state]);
 
-   
-
-    const callNFTsEndpoint = (address: string,limit: number) => {
+    const callNFTsEndpoint = (address: string, page: number, limit: string) => {
         setComfortLoader(true);
         const comfortTrigger = setTimeout(() => {
             getNfts({
                 params: {
-                    "account.eq": address ?? 1,
-                    "limit": limit ?? 15
+                    'account.eq': address ?? 1,
+                    offset: page - 1 ?? 0,
+                    limit: limit ?? 20,
                 },
-            }).then((response) => {
-            });
+            }).then((response) => {});
             setComfortLoader(false);
         }, 400);
 
@@ -193,45 +192,19 @@ const StorePage = () => {
         let pageParam = new URLSearchParams(history.location.search);
 
         const page = pageParam.get('page');
-        const categories = pageParam.get('categories');
-        const priceAtLeast = pageParam.get('priceAtLeast');
-        const priceAtMost = pageParam.get('priceAtMost');
-        const orderBy = pageParam.get('orderBy') as
-            | 'createdAt'
-            | 'price'
-            | 'name';
-        const orderDirection = pageParam.get('orderDirection') as
-            | 'asc'
-            | 'desc';
-        const availability = pageParam.get('availability');
 
         const collection = pageParam.get('collection');
-        console.log(collection)
-        const walletAdress = pageParam.get('address')
-        setCollection(String(collection))
-        setWalletAddres(String(walletAdress))
+        const limit = pageParam.get('limit');
+
+        const walletAdress = pageParam.get('address');
+        setCollection(String(collection));
+        setWalletAddres(String(walletAdress));
         // Pagination
         if (page) {
             setSelectedPage(Number(page));
         }
 
-        // Prices
-        if (priceAtLeast && priceAtMost) {
-            setPriceFilterRange([Number(priceAtLeast), Number(priceAtMost)]);
-        } else {
-            setPriceFilterRange(undefined);
-        }
-
-        // Order
-        if (orderBy && orderDirection) {
-            setSelectedSort({
-                orderBy: orderBy,
-                orderDirection: orderDirection,
-            });
-        }
-
- 
-        callNFTsEndpoint(String(walletAdress), 15)
+        callNFTsEndpoint(String(walletAdress), Number(page), String(limit));
     };
 
     const setPageParams = (
@@ -276,9 +249,11 @@ const StorePage = () => {
     };
 
     const handlePaginationChange = (event: any, page: number) => {
+        let pageParam = new URLSearchParams(history.location.search);
+        const walletAdress = pageParam.get('address');
         setSelectedPage(page);
         setPageParams('page', page.toString());
-        // callNFTsEndpoint({ handlePriceRange: true, page: page });
+        callNFTsEndpoint(String(walletAdress), Number(page));
         window.scrollTo(0, 0);
     };
 
@@ -320,18 +295,18 @@ const StorePage = () => {
 
     const [availableFilters, setAvailableFilters] = useState<ITreeCategory[]>();
 
-    useEffect(() => {
-        if (categoriesResponse.data) {
-            setAvailableFilters([
-                {
-                    id: 'root',
-                    name: 'Categories',
-                    children: categoriesResponse.data,
-                },
-            ]);
-            setOnInit(false);
-        }
-    }, [categoriesResponse.data]);
+    // useEffect(() => {
+    //     if (categoriesResponse.data) {
+    //         setAvailableFilters([
+    //             {
+    //                 id: 'root',
+    //                 name: 'Categories',
+    //                 children: categoriesResponse.data,
+    //             },
+    //         ]);
+    //         setOnInit(false);
+    //     }
+    // }, [categoriesResponse.data]);
 
     return (
         <PageWrapper>
@@ -344,14 +319,14 @@ const StorePage = () => {
                         weight="SemiBold"
                         sx={{ justifyContent: 'center' }}
                     >
-                         { collection }
+                        {collection}
                     </Typography>
                 )}
 
                 <FlexSpacer />
 
                 {/* Toggle options */}
-            
+
                 <StyledContentStack>
                     {/* <StoreFilters
                         availableFilters={availableFilters}
@@ -388,9 +363,9 @@ const StorePage = () => {
                 <Stack direction="row">
                     <FlexSpacer />
                     <StyledPagination
-                        display={nftsResponse.data?.numberOfPages > 1}
+                        display={nftsResponse.data?.length > 1}
                         page={selectedPage}
-                        count={nftsResponse.data?.numberOfPages}
+                        count={nftsResponse.data?.length}
                         onChange={handlePaginationChange}
                         variant="outlined"
                         shape="rounded"
@@ -409,4 +384,3 @@ const StorePage = () => {
 };
 
 export default StorePage;
-
