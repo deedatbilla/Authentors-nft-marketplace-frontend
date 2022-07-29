@@ -251,9 +251,10 @@ const StorePage = () => {
     const handlePaginationChange = (event: any, page: number) => {
         let pageParam = new URLSearchParams(history.location.search);
         const walletAdress = pageParam.get('address');
+        const limit = pageParam.get('limit');
         setSelectedPage(page);
         setPageParams('page', page.toString());
-        callNFTsEndpoint(String(walletAdress), Number(page));
+        callNFTsEndpoint(String(walletAdress), Number(page),String(limit));
         window.scrollTo(0, 0);
     };
 
