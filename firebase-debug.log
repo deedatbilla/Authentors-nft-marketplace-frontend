@@ -1,0 +1,33 @@
+[debug] [2022-07-29T12:17:12.574Z] ----------------------------------------------------------------------
+[debug] [2022-07-29T12:17:12.575Z] Command:       /usr/local/bin/node /usr/local/bin/firebase deploy
+[debug] [2022-07-29T12:17:12.576Z] CLI Version:   11.0.1
+[debug] [2022-07-29T12:17:12.576Z] Platform:      linux
+[debug] [2022-07-29T12:17:12.576Z] Node Version:  v16.14.0
+[debug] [2022-07-29T12:17:12.577Z] Time:          Fri Jul 29 2022 12:17:12 GMT+0000 (Greenwich Mean Time)
+[debug] [2022-07-29T12:17:12.577Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-07-29T12:17:12.624Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-07-29T12:17:12.625Z] > authorizing via signed-in user (deedat5@gmail.com)
+[debug] [2022-07-29T12:17:12.625Z] [iam] checking project startups-311a4 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2022-07-29T12:17:12.627Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/startups-311a4:testIamPermissions [none]
+[debug] [2022-07-29T12:17:12.627Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/startups-311a4:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2022-07-29T12:17:14.739Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/startups-311a4:testIamPermissions 200
+[debug] [2022-07-29T12:17:14.739Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/startups-311a4:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2022-07-29T12:17:14.740Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/startups-311a4 [none]
+[debug] [2022-07-29T12:17:15.927Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/startups-311a4 200
+[debug] [2022-07-29T12:17:15.928Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/startups-311a4 {"projectId":"startups-311a4","projectNumber":"390313152157","displayName":"startups","name":"projects/startups-311a4","resources":{"hostingSite":"startups-311a4","realtimeDatabaseInstance":"startups-311a4","storageBucket":"startups-311a4.appspot.com","locationId":"us-central"},"state":"ACTIVE","etag":"1_a25dabb6-26a5-4474-8f97-ecc0618868e2"}
+[info] 
+[info] === Deploying to 'startups-311a4'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2022-07-29T12:17:15.932Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/startups-311a4 [none]
+[debug] [2022-07-29T12:17:17.003Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/startups-311a4 200
+[debug] [2022-07-29T12:17:17.003Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/startups-311a4 {"projectId":"startups-311a4","projectNumber":"390313152157","displayName":"startups","name":"projects/startups-311a4","resources":{"hostingSite":"startups-311a4","realtimeDatabaseInstance":"startups-311a4","storageBucket":"startups-311a4.appspot.com","locationId":"us-central"},"state":"ACTIVE","etag":"1_a25dabb6-26a5-4474-8f97-ecc0618868e2"}
+[debug] [2022-07-29T12:17:17.006Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/390313152157/sites/authentors-collections/versions [none]
+[debug] [2022-07-29T12:17:17.006Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/390313152157/sites/authentors-collections/versions {"config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2022-07-29T12:17:20.023Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/390313152157/sites/authentors-collections/versions 200
+[debug] [2022-07-29T12:17:20.023Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/390313152157/sites/authentors-collections/versions {"name":"projects/390313152157/sites/authentors-collections/versions/944202b5b399959c","status":"CREATED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[authentors-collections]: beginning deploy... 
+[info] i  hosting[authentors-collections]: found 34 files in build 
+[debug] [2022-07-29T12:17:20.037Z] [hosting] uploading with 200 concurrency
+[debug] [2022-07-29T12:17:20.037Z] [hosting] hash cache [YnVpbGQ] not populated
