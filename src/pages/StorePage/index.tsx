@@ -353,6 +353,8 @@ const StorePage = () => {
                     <NftGrid
                         open={filterOpen}
                         nfts={nftsResponse?.data}
+                        collectionAddress ={walletAdress}
+                        collectionName = {collection}
                         loading={
                             nftsResponse.loading ||
                             filterSliding ||

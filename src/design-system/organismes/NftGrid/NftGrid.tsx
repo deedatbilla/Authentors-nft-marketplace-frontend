@@ -1,3 +1,4 @@
+/* eslint-disable no-delete-var */
 import styled from '@emotion/styled';
 import Typography from '../../atoms/Typography';
 
@@ -20,6 +21,8 @@ export interface NftGridProps {
     collapsed?: boolean;
     sx?: any;
     nftCardMode?: 'user';
+    collectionAddress?: string;
+    collectionName?: string;
 }
 
 const StyledGrid = styled(Grid)`
@@ -38,9 +41,25 @@ export const NftGrid: FC<NftGridProps> = ({ ...props }) => {
     const [gridNfts, setGridNfts] = useState<CertificateNFTS[]>();
     const [comfortLoading, setComfortLoading] = useState<boolean>(false);
 // console.log(gridNfts,"here")
+const prepareNftData = () => {
+ 
+    if(props.collectionAddress === "tz2GVs8tsfkBZtDFD7LPk4HSv9waBGitzEd6" && props.collectionName === "CPA Union of Israel" ) {
+        return props.nfts?.filter(nft => 
+            nft.token.metadata?.name === "Graduation Diploma of CPA \"Crypto Course\""
+        )
+    } else if(props.collectionAddress === "tz2GVs8tsfkBZtDFD7LPk4HSv9waBGitzEd6" && props.collectionName === "ATHENA Certificates") {
+        return props.nfts?.filter(nft => 
+            nft.token.metadata?.name !== "Graduation Diploma of CPA \"Crypto Course\""
+        )
+    } else {
+       return props.nfts?.filter(nft => 
+            nft.token.metadata?.name !== "colmandiplomas.tez"
+        )
+    }
+}
     useEffect(() => {
         if (props.nfts) {
-            setGridNfts(props.nfts);
+            setGridNfts(prepareNftData);
         }
     }, [props.nfts]);
 

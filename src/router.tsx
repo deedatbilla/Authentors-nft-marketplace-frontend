@@ -204,7 +204,7 @@ const Router = () => {
                     <CookieBanner handleClose={() => setCookie(!cookie)} />
                 )}
 
-                <Footer />
+                {/* <Footer /> */}
             </StyledBrowserRouter>
         </ThemeProvider>
     );
