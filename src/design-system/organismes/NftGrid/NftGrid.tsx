@@ -47,15 +47,16 @@ const prepareNftData = () => {
         return props.nfts?.filter(nft => 
             nft.token.metadata?.name === "Graduation Diploma of CPA \"Crypto Course\""
         )
-    } else if(props.collectionAddress === "tz2GVs8tsfkBZtDFD7LPk4HSv9waBGitzEd6" && props.collectionName === "ATHENA Certificates") {
+    }
+    if(props.collectionAddress === "tz2GVs8tsfkBZtDFD7LPk4HSv9waBGitzEd6" && props.collectionName === "ATHENA Certificates") {
         return props.nfts?.filter(nft => 
             nft.token.metadata?.name !== "Graduation Diploma of CPA \"Crypto Course\""
         )
-    } else {
-       return props.nfts?.filter(nft => 
-            nft.token.metadata?.name !== "colmandiplomas.tez"
-        )
-    }
+    } 
+
+    return props.nfts?.filter(nft => 
+        nft.token.metadata?.name !== "colmandiplomas.tez"
+    )
 }
     useEffect(() => {
         if (props.nfts) {
