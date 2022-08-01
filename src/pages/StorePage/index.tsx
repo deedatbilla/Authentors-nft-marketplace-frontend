@@ -170,13 +170,12 @@ const StorePage = () => {
         }
     }, [history.location.state]);
 
-    const callNFTsEndpoint = (address: string, page: number, limit: string) => {
+    const callNFTsEndpoint = (address: string, limit: string) => {
         setComfortLoader(true);
         const comfortTrigger = setTimeout(() => {
             getNfts({
                 params: {
                     'account.eq': address ?? 1,
-                    offset: page  ?? 0,
                     limit: limit ?? 20,
                 },
             }).then((response) => {});
@@ -204,7 +203,7 @@ const StorePage = () => {
             setSelectedPage(Number(page));
         }
 
-        callNFTsEndpoint(String(walletAdress), Number(page), String(limit));
+        callNFTsEndpoint(String(walletAdress), String(limit));
     };
 
     const setPageParams = (
@@ -254,7 +253,7 @@ const StorePage = () => {
         const limit = pageParam.get('limit');
         setSelectedPage(page);
         setPageParams('page', page.toString());
-        callNFTsEndpoint(String(walletAdress), Number(page),String(limit));
+        // callNFTsEndpoint(String(walletAdress), Number(page), String(limit));
         window.scrollTo(0, 0);
     };
 
@@ -353,8 +352,8 @@ const StorePage = () => {
                     <NftGrid
                         open={filterOpen}
                         nfts={nftsResponse?.data}
-                        collectionAddress ={walletAdress}
-                        collectionName = {collection}
+                        collectionAddress={walletAdress}
+                        collectionName={collection}
                         loading={
                             nftsResponse.loading ||
                             filterSliding ||
@@ -363,7 +362,7 @@ const StorePage = () => {
                     />
                 </StyledContentStack>
 
-                <Stack direction="row">
+                {/* <Stack direction="row">
                     <FlexSpacer />
                     <StyledPagination
                         display={nftsResponse.data?.length > 1}
@@ -378,7 +377,7 @@ const StorePage = () => {
                             comfortLoader
                         }
                     />
-                </Stack>
+                </Stack> */}
 
                 <FlexSpacer minHeight={5} />
             </StyledStack>

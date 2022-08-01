@@ -43,16 +43,16 @@ export const NftGrid: FC<NftGridProps> = ({ ...props }) => {
 // console.log(gridNfts,"here")
 const prepareNftData = () => {
  
-    if(props.collectionAddress === "tz2GVs8tsfkBZtDFD7LPk4HSv9waBGitzEd6" && props.collectionName === "CPA Union of Israel" ) {
+    if(props.collectionAddress === "tz1ZXvvKgCDkfsjeVjaU5Y2EFFzGz7PXtQwz" && props.collectionName === "CPA Union of Israel" ) {
         return props.nfts?.filter(nft => 
             nft.token.metadata?.name === "Graduation Diploma of CPA \"Crypto Course\""
         )
     }
-    if(props.collectionAddress === "tz2GVs8tsfkBZtDFD7LPk4HSv9waBGitzEd6" && props.collectionName === "ATHENA Certificates") {
+    if(props.collectionAddress === "tz1ZXvvKgCDkfsjeVjaU5Y2EFFzGz7PXtQwz" && props.collectionName === "ATHENA Certificates") {
         return props.nfts?.filter(nft => 
-            nft.token.metadata?.name !== "Graduation Diploma of CPA \"Crypto Course\""
+            nft.token.metadata?.name === "Certificate of Appreciation from The Institute of Certified Public Accountants in Israel"
         )
-    } 
+    }  
 
     return props.nfts?.filter(nft => 
         nft.token.metadata?.name !== "colmandiplomas.tez"

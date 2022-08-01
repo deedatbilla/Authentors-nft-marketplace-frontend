@@ -90,7 +90,7 @@ const Router = () => {
         if (!embedKukai) {
             setEmbedKukai(
                 new KukaiEmbed({
-                    net: "https://ithacanet.kukai.app",
+                    net: 'https://ithacanet.kukai.app',
                     icon: false,
                 }),
             );
@@ -143,7 +143,7 @@ const Router = () => {
                         <Route exact path="/">
                             <Redirect to="/home" />
                         </Route>
-                        <Route path="/home" component={HomePage} />
+                        {/* <Route path="/home" component={HomePage} /> */}
                         <Route path="/store" component={StorePage} />
                         <Route path="/profile/edit" component={EditProfile} />
                         <Route
@@ -185,6 +185,14 @@ const Router = () => {
                                     }
                                 />
                             )}
+                        />
+                        <Route
+                            path="/home"
+                            component={() => {
+                                window.location.href =
+                                    'https://authentors.web.app/';
+                                return null;
+                            }}
                         />
                         <Route path="/404" component={NotFound} />
                         <Redirect from="*" to="/404" />
