@@ -176,7 +176,7 @@ const StorePage = () => {
             getNfts({
                 params: {
                     'account.eq': address ?? 1,
-                    offset: page  ?? 1,
+                    offset: page  ?? 0,
                     limit: limit ?? 20,
                 },
             }).then((response) => {});

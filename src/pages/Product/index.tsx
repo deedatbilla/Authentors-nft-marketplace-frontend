@@ -270,7 +270,7 @@ export const ProductPage: FC<ProductPageProps> = ({ ...props }) => {
         <StytledPageWrapper>
             <WrapperFullScreen open={fullScreenView}>
                 <StyledImage
-                    src={nftResponse.data?.displayUri}
+                    src={`https://ipfs.io/ipfs/${getIPFSHash(String(nft?.metadata.displayUri))}`}
                     alt="random"
                     onClick={
                         fullScreenView
@@ -356,13 +356,13 @@ export const ProductPage: FC<ProductPageProps> = ({ ...props }) => {
                         {/* Headline */}
                         <FlexSpacer />
 
-                        <Typography size="h4" weight="SemiBold">
+                        {/* <Typography size="h4" weight="SemiBold">
                             {nftResponse.loading || comfortLoader ? (
                                 <Skeleton width="15rem" height="2rem" />
                             ) : (
                                 nft?.contract?.alias
                             )}
-                        </Typography>
+                        </Typography> */}
 
                         <Typography size="h2" weight="SemiBold">
                             {nftResponse.loading || comfortLoader ? (
@@ -414,6 +414,7 @@ export const ProductPage: FC<ProductPageProps> = ({ ...props }) => {
                                 "Contract address"
                             )}
                         </Typography>
+                        {/* //https://tzkt.io/KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton/operations/ */}
                         <Typography
                             size="h5"
                             weight="Light"
