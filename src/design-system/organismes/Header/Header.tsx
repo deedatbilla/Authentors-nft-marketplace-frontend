@@ -77,50 +77,50 @@ export const Header: FC<HeaderProps> = ({
     const handleCloseModal = () => props.setLoginOpen(false);
 
     // const loggedUser = {data: undefined, loading: false}
-    const [loggedUser, getLoggedUser] = useAxios(
-        {
-            url:
-                process.env.REACT_APP_API_SERVER_BASE_URL + '/auth/logged_user',
-            withCredentials: true,
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem(
-                    'Kanvas - Bearer',
-                )}`,
-            },
-        },
-        { manual: true },
-    );
+    // const [loggedUser, getLoggedUser] = useAxios(
+    //     {
+    //         url:
+    //             process.env.REACT_APP_API_SERVER_BASE_URL + '/auth/logged_user',
+    //         withCredentials: true,
+    //         headers: {
+    //             Authorization: `Bearer ${localStorage.getItem(
+    //                 'Kanvas - Bearer',
+    //             )}`,
+    //         },
+    //     },
+    //     { manual: true },
+    // );
 
-    const [logoutUserResponse, logoutUser] = useAxios(
-        {
-            url: process.env.REACT_APP_API_SERVER_BASE_URL + '/auth/logout',
-            method: 'POST',
-            withCredentials: true,
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem(
-                    'Kanvas - Bearer',
-                )}`,
-            },
-        },
-        { manual: true },
-    );
+    // const [logoutUserResponse, logoutUser] = useAxios(
+    //     {
+    //         url: process.env.REACT_APP_API_SERVER_BASE_URL + '/auth/logout',
+    //         method: 'POST',
+    //         withCredentials: true,
+    //         headers: {
+    //             Authorization: `Bearer ${localStorage.getItem(
+    //                 'Kanvas - Bearer',
+    //             )}`,
+    //         },
+    //     },
+    //     { manual: true },
+    // );
 
     const handleLogout = () => {
-        logoutUser()
-            .then((res) => {
-                localStorage.removeItem('Kanvas - Bearer');
-                localStorage.removeItem('Kanvas - address');
+        // logoutUser()
+        //     .then((res) => {
+        //         localStorage.removeItem('Kanvas - Bearer');
+        //         localStorage.removeItem('Kanvas - address');
 
-                listCart({
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem(
-                            'Kanvas - Bearer',
-                        )}`,
-                    },
-                    withCredentials: true,
-                });
-            })
-            .catch((err) => {});
+        //         listCart({
+        //             headers: {
+        //                 Authorization: `Bearer ${localStorage.getItem(
+        //                     'Kanvas - Bearer',
+        //                 )}`,
+        //             },
+        //             withCredentials: true,
+        //         });
+        //     })
+        //     .catch((err) => {});
     };
 
     const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -128,18 +128,18 @@ export const Header: FC<HeaderProps> = ({
         IUser | undefined
     >(undefined);
 
-    useEffect(() => {
-        if (loggedUser.data) {
-            setCurrentLoggedUser(loggedUser.data);
-        } else if (loggedUser.error) {
-            localStorage.removeItem('Kanvas - Bearer');
-            localStorage.removeItem('Kanvas - address');
-        }
-    }, [loggedUser]);
+    // useEffect(() => {
+    //     if (loggedUser.data) {
+    //         setCurrentLoggedUser(loggedUser.data);
+    //     } else if (loggedUser.error) {
+    //         localStorage.removeItem('Kanvas - Bearer');
+    //         localStorage.removeItem('Kanvas - address');
+    //     }
+    // }, [loggedUser]);
 
-    useEffect(() => {
-        getLoggedUser().catch((err) => console.log(err));
-    }, []);
+    // useEffect(() => {
+    //     getLoggedUser().catch((err) => console.log(err));
+    // }, []);
 
     return (
         <StyledBox
@@ -154,7 +154,7 @@ export const Header: FC<HeaderProps> = ({
             <Spacer isdisplay={!isSearchOpen} />
 
             <Menu
-                loading={loggedUser.loading}
+                loading={false}
                 user={currentLoggedUser}
                 setSearchOpen={setIsSearchOpen}
                 isSearchOpen={isSearchOpen}

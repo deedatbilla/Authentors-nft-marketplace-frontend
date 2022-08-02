@@ -52,55 +52,55 @@ const Router = () => {
 
     const [nftsInCart, setNftsInCart] = useState<INft[]>([]);
 
-    const [listCartResponse, listCart] = useAxios(
-        {
-            url: process.env.REACT_APP_API_SERVER_BASE_URL + `/users/cart/list`,
-            method: 'GET',
-            withCredentials: true,
-        },
-        { manual: true },
-    );
+    // const [listCartResponse, listCart] = useAxios(
+    //     {
+    //         url: process.env.REACT_APP_API_SERVER_BASE_URL + `/users/cart/list`,
+    //         method: 'GET',
+    //         withCredentials: true,
+    //     },
+    //     { manual: true },
+    // );
 
     const [listCalled, setListCalled] = useState(false);
 
-    // Getting list of nfts in the cart
-    useEffect(() => {
-        listCart({
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem(
-                    'Kanvas - Bearer',
-                )}`,
-            },
-            withCredentials: true,
-        })
-            .then((res) => setListCalled(true))
-            .catch((err) => {
-                setListCalled(true);
-                toast.error(err);
-            });
-    }, []);
+    // // Getting list of nfts in the cart
+    // useEffect(() => {
+    //     listCart({
+    //         headers: {
+    //             Authorization: `Bearer ${localStorage.getItem(
+    //                 'Kanvas - Bearer',
+    //             )}`,
+    //         },
+    //         withCredentials: true,
+    //     })
+    //         .then((res) => setListCalled(true))
+    //         .catch((err) => {
+    //             setListCalled(true);
+    //             toast.error(err);
+    //         });
+    // }, []);
 
-    useEffect(() => {
-        if (listCartResponse.data) {
-            setNftsInCart(listCartResponse.data.nfts);
-        }
-    }, [listCartResponse]);
+    // useEffect(() => {
+    //     if (listCartResponse.data) {
+    //         setNftsInCart(listCartResponse.data.nfts);
+    //     }
+    // }, [listCartResponse]);
 
-    useEffect(() => {
-        if (!embedKukai) {
-            setEmbedKukai(
-                new KukaiEmbed({
-                    net: 'https://ithacanet.kukai.app',
-                    icon: false,
-                }),
-            );
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (!embedKukai) {
+    //         setEmbedKukai(
+    //             new KukaiEmbed({
+    //                 net: 'https://ithacanet.kukai.app',
+    //                 icon: false,
+    //             }),
+    //         );
+    //     }
+    // }, []);
 
-    useEffect(() => {
-        initTezos(RPC_URL);
-        setBeaconWallet(initWallet());
-    }, []);
+    // useEffect(() => {
+    //     initTezos(RPC_URL);
+    //     setBeaconWallet(initWallet());
+    // }, []);
 
     const handleSelectTheme = (themeName: 'dark' | 'light') => {
         setSelectedTheme(themeName);
@@ -133,7 +133,7 @@ const Router = () => {
                     selectedTheme={selectedTheme}
                     nftsInCartNumber={nftsInCart ? nftsInCart.length : 0}
                     notifications={0}
-                    listCart={listCart}
+                    listCart={() => {}}
                     loginOpen={loginOpen}
                     setLoginOpen={setLoginOpen}
                 />
@@ -156,7 +156,7 @@ const Router = () => {
                                 <ProductPage
                                     nftsInCart={nftsInCart}
                                     setNftsInCart={setNftsInCart}
-                                    listCart={listCart}
+                                    listCart={() => {}}
                                     {...props}
                                 />
                             )}
@@ -171,21 +171,7 @@ const Router = () => {
                             path="/nft/:id"
                             render={(props) => <CreateNFT {...props} />}
                         />
-                        <Route
-                            path="/checkout"
-                            render={() => (
-                                <Checkout
-                                    nftsInCart={nftsInCart ?? []}
-                                    setNftsInCart={setNftsInCart}
-                                    listCart={listCart}
-                                    setLoginOpen={setLoginOpen}
-                                    expiresAt={listCartResponse.data?.expiresAt}
-                                    loading={
-                                        listCartResponse.loading && !listCalled
-                                    }
-                                />
-                            )}
-                        />
+                        
                         <Route
                             path="/home"
                             component={() => {
@@ -198,16 +184,7 @@ const Router = () => {
                         <Redirect from="*" to="/404" />
                     </Switch>
                 </ScrollToTop>
-                <ShoppingCart
-                    open={cartOpen}
-                    nftsInCart={nftsInCart}
-                    setNftsInCart={setNftsInCart}
-                    listCart={listCart}
-                    closeCart={() => setCartOpen(false)}
-                    expiresAt={listCartResponse.data?.expiresAt}
-                    loading={listCartResponse.loading && !listCalled}
-                />
-
+               
                 {!hasCookie && (
                     <CookieBanner handleClose={() => setCookie(!cookie)} />
                 )}

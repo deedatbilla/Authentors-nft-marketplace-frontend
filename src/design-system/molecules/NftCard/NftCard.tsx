@@ -170,7 +170,6 @@ export const NftCard: React.FC<NftCardProps> = ({ loading, ...props }) => {
     const handleRedirect = (path: string) => {
         history.push(path);
     };
-console.log(props.name)
     return !loading ? (
         <StyledCard
             onClick={() => handleRedirect(`/product/${props.id}`)}

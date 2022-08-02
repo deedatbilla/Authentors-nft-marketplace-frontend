@@ -22,6 +22,10 @@ import { CustomSelect } from '../../design-system/atoms/Select';
 import { Typography } from '../../design-system/atoms/Typography';
 import { useHistory } from 'react-router';
 import { string } from 'yup';
+import {
+    ATHENA_CPA_UNION_ADDRESS,
+    NUMBER_OF_ITEMS_PER_PAGE,
+} from '../../global';
 
 interface ParamTypes {
     width?: any;
@@ -146,48 +150,63 @@ const StorePage = () => {
     const [onInit, setOnInit] = useState(true);
     const [collection, setCollection] = useState<string>('');
     const [walletAdress, setWalletAddres] = useState<string>('');
+    const [allNfts, setAllNfts] = useState<any[]>([]);
+    const [filteredNfts, setFilteredNfts] = useState<any[]>([]);
+    const [pageCount, setPageCount] = useState<number>(0);
 
     // Api calls for the categories and the nfts
     const [nftsResponse, getNfts] = useAxios(
         process.env.REACT_APP_TZKIT_API_URL + `balances`,
         { manual: false },
     );
-    const [categoriesResponse, getCategories] = useAxios(
-        process.env.REACT_APP_API_SERVER_BASE_URL + '/categories',
-        { manual: true },
-    );
 
     useEffect(() => {
-        getCategories();
+        fetchNftData();
+    }, []);
+    useEffect(() => {
         getPageParams();
     }, [selectedPage]);
 
-    useEffect(() => {
-        if (history.location.state) {
-            const state: any = history.location.state;
-            if (state.refresh && state.category)
-                setPreSelectedCategories([state.category]);
-        }
-    }, [history.location.state]);
-
-    const callNFTsEndpoint = (address: string, limit: string) => {
+    const callNFTsEndpoint = async (
+        address: string,
+        limit: string,
+        collection: string,
+    ) => {
         setComfortLoader(true);
-        const comfortTrigger = setTimeout(() => {
-            getNfts({
+        try {
+            const { data } = await getNfts({
                 params: {
                     'account.eq': address ?? 1,
                     limit: limit ?? 20,
                 },
-            }).then((response) => {});
-            setComfortLoader(false);
-        }, 400);
+            });
+            const filtered = prepareNftData(data, address, collection);
 
-        return () => {
-            clearTimeout(comfortTrigger);
-        };
+            setAllNfts(filtered);
+            setFilteredNfts(filtered.slice(0, NUMBER_OF_ITEMS_PER_PAGE));
+            const pgCount = filtered.length / NUMBER_OF_ITEMS_PER_PAGE;
+            setPageCount(Number(pgCount.toFixed(0)));
+
+            setComfortLoader(false);
+        } catch (error) {
+            console.log(error);
+            setComfortLoader(false);
+        }
     };
 
     const getPageParams = () => {
+        let pageParam = new URLSearchParams(history.location.search);
+
+        const page = pageParam.get('page');
+
+        // Pagination
+        if (page) {
+            setSelectedPage(Number(page));
+        }
+        computePagination(Number(page));
+    };
+
+    const fetchNftData = () => {
         let pageParam = new URLSearchParams(history.location.search);
 
         const page = pageParam.get('page');
@@ -196,14 +215,16 @@ const StorePage = () => {
         const limit = pageParam.get('limit');
 
         const walletAdress = pageParam.get('address');
-        setCollection(String(collection));
-        setWalletAddres(String(walletAdress));
-        // Pagination
         if (page) {
             setSelectedPage(Number(page));
         }
-
-        callNFTsEndpoint(String(walletAdress), String(limit));
+        setCollection(String(collection));
+        setWalletAddres(String(walletAdress));
+        callNFTsEndpoint(
+            String(walletAdress),
+            String(limit),
+            String(collection),
+        );
     };
 
     const setPageParams = (
@@ -228,85 +249,64 @@ const StorePage = () => {
         history.push({ search: actualPageParam.toString() });
     };
 
-    const deletePageParams = (
-        queryParam:
-            | 'categories'
-            | 'page'
-            | 'availability'
-            | 'priceAtLeast'
-            | 'priceAtMost'
-            | 'orderBy'
-            | 'orderDirection',
-    ) => {
-        const actualPageParam = new URLSearchParams(history.location.search);
-
-        if (actualPageParam.get(queryParam)) {
-            actualPageParam.delete(queryParam);
-        }
-
-        history.push({ search: actualPageParam.toString() });
-    };
-
     const handlePaginationChange = (event: any, page: number) => {
         let pageParam = new URLSearchParams(history.location.search);
         const walletAdress = pageParam.get('address');
         const limit = pageParam.get('limit');
         setSelectedPage(page);
         setPageParams('page', page.toString());
-        // callNFTsEndpoint(String(walletAdress), Number(page), String(limit));
         window.scrollTo(0, 0);
+        computePagination(page);
     };
 
-    const triggerPriceFilter = () => {
-        if (priceFilterRange) {
-            setPageParams('priceAtLeast', priceFilterRange[0].toString());
-            setPageParams('priceAtMost', priceFilterRange[1].toString());
-        }
-        // callNFTsEndpoint({ handlePriceRange: true });
+    const computePagination = (page: number) => {
+        console.log(page);
+        const firstIndex = (page - 1) * NUMBER_OF_ITEMS_PER_PAGE; //we want to show 8 items per page
+        const lastIndex = page * NUMBER_OF_ITEMS_PER_PAGE;
+        let filtered = allNfts;
+
+        filtered = filtered.slice(firstIndex, lastIndex);
+        setFilteredNfts(filtered);
     };
-
-    useEffect(() => {
-        if (!onInit) {
-            if (selectedSort) {
-                setPageParams('orderBy', selectedSort.orderBy);
-                setPageParams('orderDirection', selectedSort.orderDirection);
-            } else {
-                deletePageParams('orderBy');
-                deletePageParams('orderDirection');
-            }
-        }
-    }, [selectedSort]);
-
-    useEffect(() => {
-        if (!onInit) {
-            if (selectedCategories.length)
-                setPageParams('categories', selectedCategories.join(','));
-            else deletePageParams('categories');
-        }
-    }, [selectedCategories]);
-
-    useEffect(() => {
-        if (!onInit) {
-            if (selectedAvailability.length)
-                setPageParams('availability', selectedAvailability.join(','));
-            else deletePageParams('availability');
-        }
-    }, [selectedAvailability]);
+    console.log(allNfts, 'all');
 
     const [availableFilters, setAvailableFilters] = useState<ITreeCategory[]>();
+    const prepareNftData = (
+        data: any,
+        walletAdress: string,
+        collection: string,
+    ) => {
+        let arr = [...data];
 
-    // useEffect(() => {
-    //     if (categoriesResponse.data) {
-    //         setAvailableFilters([
-    //             {
-    //                 id: 'root',
-    //                 name: 'Categories',
-    //                 children: categoriesResponse.data,
-    //             },
-    //         ]);
-    //         setOnInit(false);
-    //     }
-    // }, [categoriesResponse.data]);
+        if (
+            walletAdress === ATHENA_CPA_UNION_ADDRESS &&
+            collection === 'CPA Union of Israel'
+        ) {
+            arr = arr.filter(
+                (nft: any) =>
+                    nft.token.metadata?.name ===
+                    'Graduation Diploma of CPA "Crypto Course"',
+            );
+
+            return arr;
+        }
+        if (
+            walletAdress === ATHENA_CPA_UNION_ADDRESS &&
+            collection === 'ATHENA Certificates'
+        ) {
+            arr = arr.filter(
+                (nft: any) =>
+                    nft.token.metadata?.name ===
+                    'Certificate of Appreciation from The Institute of Certified Public Accountants in Israel',
+            );
+
+            return arr;
+        }
+        // computePagination(1);
+        return arr.filter(
+            (nft: any) => nft.token.metadata?.name !== 'colmandiplomas.tez',
+        );
+    };
 
     return (
         <PageWrapper>
@@ -351,7 +351,7 @@ const StorePage = () => {
 
                     <NftGrid
                         open={filterOpen}
-                        nfts={nftsResponse?.data}
+                        nfts={filteredNfts}
                         collectionAddress={walletAdress}
                         collectionName={collection}
                         loading={
@@ -362,12 +362,12 @@ const StorePage = () => {
                     />
                 </StyledContentStack>
 
-                {/* <Stack direction="row">
+                <Stack direction="row">
                     <FlexSpacer />
                     <StyledPagination
                         display={nftsResponse.data?.length > 1}
                         page={selectedPage}
-                        count={nftsResponse.data?.length}
+                        count={pageCount}
                         onChange={handlePaginationChange}
                         variant="outlined"
                         shape="rounded"
@@ -377,7 +377,7 @@ const StorePage = () => {
                             comfortLoader
                         }
                     />
-                </Stack> */}
+                </Stack>
 
                 <FlexSpacer minHeight={5} />
             </StyledStack>

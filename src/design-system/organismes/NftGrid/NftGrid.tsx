@@ -8,6 +8,7 @@ import { Grid, Stack } from '@mui/material';
 import { NftCard } from '../../molecules/NftCard';
 import { INft } from '../../../interfaces/artwork';
 import { CertificateNFTS } from '../../../interfaces/certificates'
+import { ATHENA_CPA_UNION_ADDRESS } from '../../../global';
 
 export interface NftGridProps {
     editable?: boolean;
@@ -43,12 +44,12 @@ export const NftGrid: FC<NftGridProps> = ({ ...props }) => {
 // console.log(gridNfts,"here")
 const prepareNftData = () => {
  
-    if(props.collectionAddress === "tz1ZXvvKgCDkfsjeVjaU5Y2EFFzGz7PXtQwz" && props.collectionName === "CPA Union of Israel" ) {
+    if(props.collectionAddress === ATHENA_CPA_UNION_ADDRESS && props.collectionName === "CPA Union of Israel" ) {
         return props.nfts?.filter(nft => 
             nft.token.metadata?.name === "Graduation Diploma of CPA \"Crypto Course\""
         )
     }
-    if(props.collectionAddress === "tz1ZXvvKgCDkfsjeVjaU5Y2EFFzGz7PXtQwz" && props.collectionName === "ATHENA Certificates") {
+    if(props.collectionAddress === ATHENA_CPA_UNION_ADDRESS && props.collectionName === "ATHENA Certificates") {
         return props.nfts?.filter(nft => 
             nft.token.metadata?.name === "Certificate of Appreciation from The Institute of Certified Public Accountants in Israel"
         )
