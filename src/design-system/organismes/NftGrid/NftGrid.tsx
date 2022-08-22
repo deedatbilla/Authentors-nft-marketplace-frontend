@@ -97,6 +97,7 @@ const prepareNftData = () => {
                                 name={nft.token.metadata?.name}
                                 ipfsHash={nft.token.metadata?.artifactUri}
                                 displayUri={nft.token.metadata?.displayUri}
+                                artifactUri={nft.token.metadata?.artifactUri}
                                 price={Number(nft?.balance)}
                                 editionsAvailable={Number(
                                     nft?.firstTime,

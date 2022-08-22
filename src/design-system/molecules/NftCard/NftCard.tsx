@@ -21,6 +21,7 @@ export interface NftCardProps {
     ipfsHash?: string;
     openFilters?: boolean;
     displayUri?: string;
+    artifactUri?: string;
     launchAt?: number;
     editionsAvailable?: number;
     nftCardMode?: 'user';
@@ -188,12 +189,12 @@ export const NftCard: React.FC<NftCardProps> = ({ loading, ...props }) => {
             <StyledImgWrapper>
                 <StyledImg   //https://ipfs.io/ipfs/QmbsFDLwTjSDypbQCjGJaZT4XbDQE62bRmrzJjn7Xvpw5E
                     data-object-fit="cover"
-                    src={`https://ipfs.io/ipfs/${getIPFSHash(String(props.displayUri))}`}
+                    src={`https://ipfs.io/ipfs/${getIPFSHash(String(props.artifactUri))}`}
                     alt={props.name}
                     onLoad={() =>
                         props.displayUri
-                            ? loadImage(`https://ipfs.io/ipfs/${getIPFSHash(String(props.displayUri))}`)
-                            : undefined
+                            ? loadImage(`https://ipfs.io/ipfs/${getIPFSHash(String(props.artifactUri))}`)
+                            : loadImage(`https://ipfs.io/ipfs/${getIPFSHash(String(props.artifactUri))}`)
                     }
                     style={{
                         filter: `${componentLoading ? 'blur(20px)' : 'none'}`,

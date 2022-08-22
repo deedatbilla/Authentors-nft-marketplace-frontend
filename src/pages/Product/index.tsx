@@ -270,7 +270,7 @@ export const ProductPage: FC<ProductPageProps> = ({ ...props }) => {
         <StytledPageWrapper>
             <WrapperFullScreen open={fullScreenView}>
                 <StyledImage
-                    src={`https://ipfs.io/ipfs/${getIPFSHash(String(nft?.metadata.displayUri))}`}
+                    src={`https://ipfs.io/ipfs/${getIPFSHash(String(nft?.metadata.artifactUri))}`}
                     alt="random"
                     onClick={
                         fullScreenView
@@ -330,7 +330,7 @@ export const ProductPage: FC<ProductPageProps> = ({ ...props }) => {
                         >
                             <StyledCardMedia
                                 component="img"
-                                image={`https://ipfs.io/ipfs/${getIPFSHash(String(nft?.metadata.displayUri))}`}
+                                image={`https://ipfs.io/ipfs/${getIPFSHash(String(nft?.metadata.artifactUri))}`}
                                 alt="random"
                             />
                             <StyledWrapperIcon

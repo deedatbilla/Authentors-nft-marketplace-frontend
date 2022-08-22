@@ -268,7 +268,6 @@ const StorePage = () => {
         filtered = filtered.slice(firstIndex, lastIndex);
         setFilteredNfts(filtered);
     };
-    console.log(allNfts, 'all');
 
     const [availableFilters, setAvailableFilters] = useState<ITreeCategory[]>();
     const prepareNftData = (
@@ -278,34 +277,56 @@ const StorePage = () => {
     ) => {
         let arr = [...data];
 
-        if (
-            walletAdress === ATHENA_CPA_UNION_ADDRESS &&
-            collection === 'CPA Union of Israel'
-        ) {
-            arr = arr.filter(
-                (nft: any) =>
-                    nft.token.metadata?.name ===
-                    'Graduation Diploma of CPA "Crypto Course"',
-            );
+        // if (
+        //     walletAdress === ATHENA_CPA_UNION_ADDRESS &&
+        //     collection === 'CPA Union of Israel'
+        // ) {
+        //     arr = arr.filter(
+        //         (nft: any) =>
+        //             nft.token.metadata?.name ===
+        //             'Graduation Diploma of CPA "Crypto Course"',
+        //     );
 
-            return arr;
-        }
-        if (
-            walletAdress === ATHENA_CPA_UNION_ADDRESS &&
-            collection === 'ATHENA Certificates'
-        ) {
-            arr = arr.filter(
-                (nft: any) =>
-                    nft.token.metadata?.name ===
-                    'Certificate of Appreciation from The Institute of Certified Public Accountants in Israel',
-            );
+        //     return arr;
+        // }
+        // if (
+        //     walletAdress === ATHENA_CPA_UNION_ADDRESS &&
+        //     collection === 'ATHENA Certificates'
+        // ) {
+        //     arr = arr.filter(
+        //         (nft: any) =>
+        //             nft.token.metadata?.name ===
+        //             'Certificate of Appreciation from The Institute of Certified Public Accountants in Israel',
+        //     );
 
-            return arr;
+        //     return arr;
+        // }
+        let res : any[] = []
+        for (const element of arr) {
+            if(element.hasOwnProperty('token')){
+                if(element.token.hasOwnProperty('metadata')){
+                    if(element.token.metadata.hasOwnProperty('creators')){
+                        console.log("got a creators")
+                        if(element.token.metadata.creators.includes(walletAdress)){
+                            console.log("got a address")
+                            res.push(element)
+                        } else {
+                            console.log("got no address")
+                        }
+                    }else{
+                        console.log("got no.. creators")
+                    }
+                }else{
+                    console.log("got no metadat")
+                }
+                console.log("got a token", element.token)
+            }else {
+                console.log("got no token", element.token)
+            }
         }
-        // computePagination(1);
-        return arr.filter(
-            (nft: any) => nft.token.metadata?.name !== 'colmandiplomas.tez',
-        );
+      
+        return res
+
     };
 
     return (
