@@ -180,7 +180,7 @@ const StorePage = () => {
                     limit: limit ?? 20,
                 },
             });
-            const filtered = prepareNftData(data, address, collection);
+            const filtered: any[] = prepareNftData(data, address, collection);
 
             setAllNfts(filtered);
             setFilteredNfts(filtered.slice(0, NUMBER_OF_ITEMS_PER_PAGE));
@@ -277,56 +277,58 @@ const StorePage = () => {
     ) => {
         let arr = [...data];
 
-        // if (
-        //     walletAdress === ATHENA_CPA_UNION_ADDRESS &&
-        //     collection === 'CPA Union of Israel'
-        // ) {
-        //     arr = arr.filter(
-        //         (nft: any) =>
-        //             nft.token.metadata?.name ===
-        //             'Graduation Diploma of CPA "Crypto Course"',
-        //     );
-
-        //     return arr;
-        // }
-        // if (
-        //     walletAdress === ATHENA_CPA_UNION_ADDRESS &&
-        //     collection === 'ATHENA Certificates'
-        // ) {
-        //     arr = arr.filter(
-        //         (nft: any) =>
-        //             nft.token.metadata?.name ===
-        //             'Certificate of Appreciation from The Institute of Certified Public Accountants in Israel',
-        //     );
-
-        //     return arr;
-        // }
-        let res : any[] = []
+        let res: any[] = [];
         for (const element of arr) {
-            if(element.hasOwnProperty('token')){
-                if(element.token.hasOwnProperty('metadata')){
-                    if(element.token.metadata.hasOwnProperty('creators')){
-                        console.log("got a creators")
-                        if(element.token.metadata.creators.includes(walletAdress)){
-                            console.log("got a address")
-                            res.push(element)
+            if (element.hasOwnProperty('token')) {
+                if (element.token.hasOwnProperty('metadata')) {
+                    if (element.token.metadata.hasOwnProperty('creators')) {
+                        console.log('got a creators');
+                        if (
+                            element.token.metadata.creators.includes(
+                                walletAdress,
+                            )
+                        ) {
+                            console.log('got a address');
+                            res.push(element);
                         } else {
-                            console.log("got no address")
+                            console.log('got no address');
                         }
-                    }else{
-                        console.log("got no.. creators")
+                    } else {
+                        console.log('got no.. creators');
                     }
-                }else{
-                    console.log("got no metadat")
+                } else {
+                    console.log('got no metadat');
                 }
-                console.log("got a token", element.token)
-            }else {
-                console.log("got no token", element.token)
+                console.log('got a token', element.token);
+            } else {
+                console.log('got no token', element.token);
             }
         }
-      
-        return res
+        if (
+            walletAdress === ATHENA_CPA_UNION_ADDRESS &&
+            collection === 'CPA Union of Israel'
+        ) {
+            res = res.filter(
+                (nft: any) =>
+                    nft.token.metadata?.name ===
+                    'Graduation Diploma of CPA "Crypto Course"',
+            );
 
+           
+        }
+        if (
+            walletAdress === ATHENA_CPA_UNION_ADDRESS &&
+            collection === 'ATHENA Certificates'
+        ) {
+            res = res.filter(
+                (nft: any) =>
+                    nft.token.metadata?.name ===
+                    'Certificate of Appreciation from The Institute of Certified Public Accountants in Israel',
+            );
+
+          
+        }
+        return res;
     };
 
     return (

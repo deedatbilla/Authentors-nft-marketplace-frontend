@@ -39,31 +39,9 @@ const StyledDiv = styled.div`
 `;
 
 export const NftGrid: FC<NftGridProps> = ({ ...props }) => {
-    const [gridNfts, setGridNfts] = useState<CertificateNFTS[]>();
-    const [comfortLoading, setComfortLoading] = useState<boolean>(false);
-// console.log(gridNfts,"here")
-const prepareNftData = () => {
- 
-    if(props.collectionAddress === ATHENA_CPA_UNION_ADDRESS && props.collectionName === "CPA Union of Israel" ) {
-        return props.nfts?.filter(nft => 
-            nft.token.metadata?.name === "Graduation Diploma of CPA \"Crypto Course\""
-        )
-    }
-    if(props.collectionAddress === ATHENA_CPA_UNION_ADDRESS && props.collectionName === "ATHENA Certificates") {
-        return props.nfts?.filter(nft => 
-            nft.token.metadata?.name === "Certificate of Appreciation from The Institute of Certified Public Accountants in Israel"
-        )
-    }  
 
-    return props.nfts?.filter(nft => 
-        nft.token.metadata?.name !== "colmandiplomas.tez"
-    )
-}
-    useEffect(() => {
-        if (props.nfts) {
-            setGridNfts(prepareNftData);
-        }
-    }, [props.nfts]);
+    const [comfortLoading, setComfortLoading] = useState<boolean>(false);
+
 
     useEffect(() => {
         if (props.loading) {
@@ -76,14 +54,14 @@ const prepareNftData = () => {
 
     return (
         <StyledDiv>
-            {gridNfts && gridNfts.length > 0 ? (
+            {props.nfts && props.nfts.length > 0 ? (
                 <StyledGrid
                     container
                     rowSpacing={4}
                     spacing={24}
                     columnSpacing={{ sm: 4 }}
                 >
-                    {gridNfts.map((nft, index) => (
+                    {props.nfts.map((nft, index) => (
                         <Grid
                             item
                             lg={3}
